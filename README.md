@@ -275,6 +275,4 @@ pm2 start backend/src/server.js --name "feedback-hub-api"
 
 ---
 
-## 📝 Licença
 
-Propriedade de Nabarrete & Ferro Advogados Associados
