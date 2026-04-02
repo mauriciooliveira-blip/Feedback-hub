@@ -8,6 +8,7 @@ import EnviarFeedback from './pages/EnviarFeedback';
 import FeedbacksRetroativos from './pages/FeedbacksRetroativos';
 import Home from './pages/Home';
 import ImportacaoRelatorios from './pages/ImportacaoRelatorios';
+import Login from './pages/Login';
 import MinhaEquipe from './pages/MinhaEquipe';
 import Perfil from './pages/Perfil';
 import PesquisaPeriodica from './pages/PesquisaPeriodica';
@@ -30,6 +31,7 @@ export const PAGES = {
     "FeedbacksRetroativos": FeedbacksRetroativos,
     "Home": Home,
     "ImportacaoRelatorios": ImportacaoRelatorios,
+    "Login": Login,
     "MinhaEquipe": MinhaEquipe,
     "Perfil": Perfil,
     "PesquisaPeriodica": PesquisaPeriodica,

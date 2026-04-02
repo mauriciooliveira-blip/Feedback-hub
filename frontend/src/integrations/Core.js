@@ -1,6 +1,6 @@
 import { post } from "@/api/httpClient";
 
-export async function SendEmail({ to, subject, html, text }) {
+export async function SendEmail({ to, subject, html = "", text = "" }) {
   if (!to) {
     throw new Error("Destinatario do e-mail nao informado");
   }

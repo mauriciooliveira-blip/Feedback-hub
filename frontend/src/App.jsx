@@ -10,17 +10,24 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {entries.map(([pageName, PageComponent]) => (
-          <Route
-            key={pageName}
-            path={createPageUrl(pageName)}
-            element={
-              <Layout currentPageName={pageName}>
-                <PageComponent />
-              </Layout>
-            }
-          />
-        ))}
+        {/* Login page without layout */}
+        <Route path="/login" element={<Pages.Login />} />
+        
+        {/* All other pages with layout */}
+        {entries.map(([pageName, PageComponent]) => {
+          if (pageName === "Login") return null;
+          return (
+            <Route
+              key={pageName}
+              path={createPageUrl(pageName)}
+              element={
+                <Layout currentPageName={pageName}>
+                  <PageComponent />
+                </Layout>
+              }
+            />
+          );
+        })}
         <Route
           path="*"
           element={<Navigate to={createPageUrl(mainPage)} replace />}

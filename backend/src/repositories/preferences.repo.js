@@ -40,10 +40,10 @@ export async function upsertUserPreferences(userId, patch = {}) {
   await pool.query(
     `INSERT INTO user_preferences (user_id, language, email_notifications, push_notifications)
      VALUES (?, ?, ?, ?)
-     ON DUPLICATE KEY UPDATE
-       language = VALUES(language),
-       email_notifications = VALUES(email_notifications),
-       push_notifications = VALUES(push_notifications)`,
+     ON CONFLICT (user_id) DO UPDATE SET
+       language = EXCLUDED.language,
+       email_notifications = EXCLUDED.email_notifications,
+       push_notifications = EXCLUDED.push_notifications`,
     [userId, next.language, next.emailNotifications ? 1 : 0, next.pushNotifications ? 1 : 0]
   );
 

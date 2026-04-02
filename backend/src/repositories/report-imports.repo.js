@@ -39,11 +39,12 @@ export async function listReportImports(filters = {}) {
 }
 
 export async function createReportImport(payload) {
-  const [result] = await pool.query(
+  const [rows] = await pool.query(
     `INSERT INTO report_imports (
       imported_at, file_name, imported_by_user_id, imported_by_email,
       rows_count, columns_json, type_distribution_json, forced_type
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    RETURNING *`,
     [
       payload.imported_at ? new Date(payload.imported_at) : new Date(),
       payload.file_name,
@@ -56,10 +57,6 @@ export async function createReportImport(payload) {
     ]
   );
 
-  const [rows] = await pool.query(
-    "SELECT * FROM report_imports WHERE id = ?",
-    [result.insertId]
-  );
   return rows[0] ? mapReportImportRow(rows[0]) : null;
 }
 

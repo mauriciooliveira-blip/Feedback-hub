@@ -1,5 +1,9 @@
 import { clearAuthToken, get, patch, post, setAuthToken } from "@/api/httpClient";
 
+/**
+ * @param {Object} user
+ * @returns {Object & { gestores_responsaveis: Array }}
+ */
 function normalizeUser(user = {}) {
   return {
     ...user,

@@ -16,12 +16,12 @@ export const env = {
   corsOrigin: process.env.CORS_ORIGIN || "http://localhost:5173",
   jwtSecret: required("JWT_SECRET", "change-this-in-production"),
   defaultLoginEmail: process.env.DEFAULT_LOGIN_EMAIL || "",
-  mysql: {
-    host: required("MYSQL_HOST", "127.0.0.1"),
-    port: Number(process.env.MYSQL_PORT || 3306),
-    user: required("MYSQL_USER", "root"),
-    password: process.env.MYSQL_PASSWORD || "",
-    database: required("MYSQL_DATABASE", "feedback_hub"),
+  db: {
+    host: required("DB_HOST", "127.0.0.1"),
+    port: Number(process.env.DB_PORT || 3306),
+    user: required("DB_USER", "root"),
+    password: process.env.DB_PASSWORD || "",
+    name: required("DB_NAME", "feedback_hub"),
   },
 };
 

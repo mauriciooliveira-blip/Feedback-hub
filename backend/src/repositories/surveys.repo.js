@@ -41,13 +41,14 @@ export async function listPeriodicSurveys(filters = {}) {
 }
 
 export async function createPeriodicSurvey(payload) {
-  const [result] = await pool.query(
+  const [rows] = await pool.query(
     `INSERT INTO periodic_surveys (
       tipo_pesquisa, data_envio,
       destinatario_user_id, destinatario_email, destinatario_nome, destinatario_cargo, destinatario_setor,
       remetente_user_id, remetente_email, remetente_nome,
       status_email, motivo_falha_email, status
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    RETURNING *`,
     [
       payload.tipo_pesquisa,
       payload.data_envio ? new Date(payload.data_envio) : new Date(),
@@ -65,10 +66,6 @@ export async function createPeriodicSurvey(payload) {
     ]
   );
 
-  const [rows] = await pool.query(
-    "SELECT * FROM periodic_surveys WHERE id = ?",
-    [result.insertId]
-  );
   return rows[0] ? mapPeriodicSurveyRow(rows[0]) : null;
 }
 
@@ -101,13 +98,14 @@ export async function listPeriodicSurveyResponses(filters = {}) {
 }
 
 export async function createPeriodicSurveyResponse(payload) {
-  const [result] = await pool.query(
+  const [rows] = await pool.query(
     `INSERT INTO periodic_survey_responses (
       pesquisa_id, tipo_pesquisa, data_resposta,
       colaborador_user_id, colaborador_email, colaborador_nome, colaborador_cargo, colaborador_setor,
       remetente_user_id, remetente_email, remetente_nome,
       respostas_json, status
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    RETURNING *`,
     [
       payload.pesquisa_id,
       payload.tipo_pesquisa,
@@ -125,10 +123,6 @@ export async function createPeriodicSurveyResponse(payload) {
     ]
   );
 
-  const [rows] = await pool.query(
-    "SELECT * FROM periodic_survey_responses WHERE id = ?",
-    [result.insertId]
-  );
   return rows[0] ? mapSurveyResponseRow(rows[0]) : null;
 }
 

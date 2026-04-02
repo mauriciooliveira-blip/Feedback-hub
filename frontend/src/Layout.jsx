@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, Navigate } from "react-router-dom";
 import {
   BarChart3,
   ClipboardCheck,
@@ -193,26 +193,7 @@ export default function Layout({ children, currentPageName = "" }) {
   }
 
   if (!currentUser) {
-    return (
-      <div className="grid min-h-screen place-items-center bg-slate-100 px-4 dark:bg-slate-950">
-        <div className="fh-card w-full max-w-xl p-8">
-          <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 text-white">
-            <MessageCircle className="h-6 w-6" />
-          </div>
-          <h1 className="mt-5 text-3xl font-extrabold text-slate-900 dark:text-slate-100">Feedback Hub</h1>
-          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-            Sistema corporativo de avaliacoes e acompanhamento de equipes.
-          </p>
-          <button
-            type="button"
-            onClick={handleLogin}
-            className="fh-button-primary mt-6"
-          >
-            Entrar no sistema
-          </button>
-        </div>
-      </div>
-    );
+    return <Navigate to={createPageUrl("Login")} replace />;
   }
 
   if (!currentUser.full_name || !currentUser.setor) {

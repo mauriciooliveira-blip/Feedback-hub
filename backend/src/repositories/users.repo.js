@@ -142,10 +142,11 @@ export async function createUser(data) {
   const connection = await pool.getConnection();
   try {
     await connection.beginTransaction();
-    const [result] = await connection.query(
+    const [rows] = await connection.query(
       `INSERT INTO users
         (email, full_name, cargo, setor, funcao, filial, tema, foto_perfil, gerente_responsavel_email, is_active)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       RETURNING id`,
       [
         email,
         data.full_name || "",
@@ -159,9 +160,10 @@ export async function createUser(data) {
         data.is_active === false ? 0 : 1,
       ]
     );
-    await replaceManagers(connection, result.insertId, data.gestores_responsaveis || []);
+    const userId = rows[0]?.id;
+    await replaceManagers(connection, userId, data.gestores_responsaveis || []);
     await connection.commit();
-    return findUserById(result.insertId);
+    return findUserById(userId);
   } catch (error) {
     await connection.rollback();
     throw error;

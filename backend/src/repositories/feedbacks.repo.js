@@ -123,7 +123,7 @@ export async function findFeedbackById(id) {
 }
 
 export async function createFeedback(payload) {
-  const [result] = await pool.query(
+  const [rows] = await pool.query(
     `INSERT INTO feedbacks (
       data_ocorrido,
       remetente_user_id, remetente_email, remetente_nome,
@@ -135,7 +135,8 @@ export async function createFeedback(payload) {
       observacoes, arquivos_anexados_json
     ) VALUES (
       ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-    )`,
+    )
+    RETURNING id`,
     [
       payload.data_ocorrido ? new Date(payload.data_ocorrido) : new Date(),
       payload.remetente_user_id || null,
@@ -168,7 +169,7 @@ export async function createFeedback(payload) {
     ]
   );
 
-  return findFeedbackById(result.insertId);
+  return findFeedbackById(rows[0]?.id);
 }
 
 export async function updateFeedback(id, patch) {
@@ -227,7 +228,7 @@ export async function updateFeedback(id, patch) {
 }
 
 export async function deleteFeedback(id) {
-  const [result] = await pool.query("DELETE FROM feedbacks WHERE id = ?", [id]);
-  return result.affectedRows > 0;
+  const [, metadata] = await pool.query("DELETE FROM feedbacks WHERE id = ?", [id]);
+  return metadata.affectedRows > 0;
 }
 

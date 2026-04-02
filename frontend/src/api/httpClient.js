@@ -1,5 +1,5 @@
 const TOKEN_KEY = "feedback_hub_api_token";
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "/api").replace(/\/$/, "");
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://localhost:3001/api").replace(/\/$/, "");
 
 function joinUrl(path) {
   if (!path.startsWith("/")) return `${API_BASE_URL}/${path}`;
